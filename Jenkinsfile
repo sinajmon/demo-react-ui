@@ -1,12 +1,15 @@
 pipeline {
     agent any
-    stages {
-        stage('Copy File to S3 Bucket') {
-            steps {
-                withAWS(region: 'us-east-1', credentials: 'aws-jenkins-demo') {
-                    sh 'aws s3 cp Code/index.html s3://jenkin-s3/'
-                }
-            }
-        }
-    }
+    stages{
+      stage('deploy to S3'){
+          steps{
+              withAWS(credentials: 'aws-jenkins-demo', region: 'us-east-1') {
+                   sh 'aws s3 cp Code/index.html s3://jenkin-s3'
+                   sh 'aws s3 cp Code/error.html s3://jenkin-s3'
+           
+               }
+          }
+      }
+  }
 }
+
